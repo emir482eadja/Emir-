@@ -1,0 +1,82 @@
+-- Beamed v2 (by Emir) | Delta Mobile GUI
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "Beamed v2 (by Emir)", HidePremium = false, SaveConfig = true, ConfigFolder = "EmirHub"})
+
+-- Tab: Farm++
+local FarmTab = Window:MakeTab({Name = "Farm++", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+
+FarmTab:AddToggle({
+    Name = "Auto Gym Bench",
+    Default = false,
+    Callback = function(Value)
+        _G.autoBench = Value
+        while _G.autoBench do
+            game:GetService("ReplicatedStorage").Events.addStat:FireServer("Bench", 10)
+            task.wait(0.1)
+        end
+    end
+})
+
+FarmTab:AddToggle({
+    Name = "Auto Rock",
+    Default = false,
+    Callback = function(Value)
+        _G.autoRock = Value
+        while _G.autoRock do
+            game:GetService("ReplicatedStorage").Events.addStat:FireServer("Rock", 10)
+            task.wait(0.1)
+        end
+    end
+})
+
+FarmTab:AddToggle({
+    Name = "Auto Lift",
+    Default = false,
+    Callback = function(Value)
+        _G.autoLift = Value
+        while _G.autoLift do
+            game:GetService("ReplicatedStorage").Events.addStat:FireServer("Lift", 10)
+            task.wait(0.1)
+        end
+    end
+})
+
+-- Tab: Killing
+local KillTab = Window:MakeTab({Name = "Killing", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+
+KillTab:AddButton({
+    Name = "Auto Join Brawl",
+    Callback = function()
+        while true do
+            game:GetService("ReplicatedStorage").Events.joinBrawl:FireServer()
+            task.wait(10)
+        end
+    end
+})
+
+-- Tab: Stats
+local StatsTab = Window:MakeTab({Name = "Stats", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+
+StatsTab:AddToggle({
+    Name = "Anti AFK",
+    Default = true,
+    Callback = function(Value)
+        if Value then
+            local vu = game:GetService("VirtualUser")
+            game:GetService("Players").LocalPlayer.Idled:Connect(function()
+                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                task.wait(1)
+                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            end)
+        end
+    end
+})
+
+-- Tab: Credits
+local CreditsTab = Window:MakeTab({Name = "Credits", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+
+CreditsTab:AddParagraph("Script by","Emir")
+
+OrionLib:Init()
